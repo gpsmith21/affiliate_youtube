@@ -6,8 +6,6 @@ DROP TABLE IF EXISTS raw_amazon.daily_clicks;
 
 -- Amazon commissions at an order-item level grain. Commissions are credited when shipped. Includes negative-valued commissions for returns
 CREATE TABLE raw_amazon.commissions (
-    etl_loaded_at timestamptz default current_timestamp,
-    source_file text,
     category_name text,
     product_name text,
     product_asin text,
@@ -17,15 +15,16 @@ CREATE TABLE raw_amazon.commissions (
     unit_price text,
     qty_shipped text,
     is_return text,
-    revenue text
+    revenue text,
     commission text,
-    device_type text
+    device_type text,
+    etl_loaded_at timestamptz DEFAULT current_timestamp,
+    source_csv text,
+    refresh_date date
 );
 
 -- Amazon orders originating from the associate's affiliate links with order details
 CREATE TABLE raw_amazon.orders (
-    etl_loaded_at timestamptz default current_timestamp,
-    source_file text,
     category_name text,
     product_name text,
     product_asin text,
@@ -35,17 +34,21 @@ CREATE TABLE raw_amazon.orders (
     link_type text,
     associate_tracking_id text,
     indirect_sale text,
-    device_type text
+    device_type text,
+    etl_loaded_at timestamptz DEFAULT current_timestamp,
+    source_csv text,
+    refresh_date date
 );
 
 -- Daily snapshot capturing metrics: total affiliate link clicks and items ordered by seller (Amazon vs. third-party)
 CREATE TABLE raw_amazon.daily_clicks (
-    etl_loaded_at timestamptz default current_timestamp,
-    source_file text,
     snapshot_date text,
     daily_clicks text,
     qty_ordered_amz text,
     qty_ordered_other text,
     qty_ordered_all text,
-    conversion_rate_pct text
+    conversion_rate_pct text,
+    etl_loaded_at timestamptz DEFAULT current_timestamp,
+    source_csv text,
+    refresh_date date
 );
