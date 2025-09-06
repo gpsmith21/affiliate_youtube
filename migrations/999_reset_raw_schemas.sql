@@ -1,4 +1,4 @@
--- Ensure build process is idempotent
+-- Drop raw_amazon and raw_youtube schemas; run seed_db.sh to repopulate
 DROP TABLE IF EXISTS raw_amazon.commissions;
 DROP TABLE IF EXISTS raw_amazon.orders;
 DROP TABLE IF EXISTS raw_amazon.daily_clicks;
