@@ -1,7 +1,4 @@
 -- quick debug: print what psql thinks source_path is
-SHOW client_encoding;
-SET client_encoding TO 'UTF8';
-
 \echo source_path=[[:'source_path']]
 
 -- Define a table in which our .csv data will land
@@ -21,7 +18,7 @@ CREATE TABLE IF NOT EXISTS raw_amazon.commissions_landing (
 );
 
 -- Copy raw .csv data into the landing table
-\copy raw_amazon.commissions_landing (category_name, product_name, product_asin, seller, associate_tracking_id, date_shipped, unit_price, qty_shipped, is_return, revenue, commission, device_type) FROM 'C:/Users/gpsmi/AE-DE/affiliate_youtube/raw_data/amazon/2023-Fee-Earnings-2025-09-02.csv' WITH (FORMAT csv, HEADER, DELIMITER ',', ENCODING 'UTF8');
+\copy raw_amazon.commissions_landing (category_name, product_name, product_asin, seller, associate_tracking_id, date_shipped, unit_price, qty_shipped, is_return, revenue, commission, device_type) FROM 'C:/Users/gpsmi/AE-DE/affiliate_youtube/raw_data/amazon/2023-Fee-Earnings-2025-09-02.csv' WITH (FORMAT csv, HEADER, DELIMITER ',', QUOTE E'\b', ENCODING 'UTF8');
 
 BEGIN; -- All-at-once transaction
 
