@@ -1,0 +1,85 @@
+State of raw_amazon.commissions prior to seeding: 
+Number of rows:
+ num_rows 
+----------
+        0
+(1 row)
+
+Latest refresh date by event year:
+ event_year | latest_refresh_date 
+------------+---------------------
+(0 rows)
+
+State of raw_amazon.orders prior to seeding: 
+Number of rows:
+ num_rows 
+----------
+        0
+(1 row)
+
+Latest refresh date by event year:
+ event_year | latest_refresh_date 
+------------+---------------------
+(0 rows)
+
+State of raw_amazon.daily_clicks prior to seeding: 
+Number of rows:
+ num_rows 
+----------
+        0
+(1 row)
+
+Latest refresh date by event year:
+ event_year | latest_refresh_date 
+------------+---------------------
+(0 rows)
+
+Seeding Amazon commissions table: 
+Seeding Amazon orders table: 
+Seeding Amazon daily_clicks table: 
+State of raw_amazon.commissions after seeding: 
+Number of rows:
+ num_rows 
+----------
+     4364
+(1 row)
+
+Latest refresh date by event year:
+ event_year | latest_refresh_date 
+------------+---------------------
+       2023 | 2025-09-02
+       2024 | 2025-09-02
+       2025 | 2025-09-02
+(3 rows)
+
+State of raw_amazon.orders after seeding: 
+Number of rows:
+ num_rows 
+----------
+     3921
+(1 row)
+
+Latest refresh date by event year:
+ event_year | latest_refresh_date 
+------------+---------------------
+       2023 | 2025-09-02
+       2024 | 2025-09-02
+       2025 | 2025-09-02
+(3 rows)
+
+State of raw_amazon.daily_clicks after seeding: 
+Number of rows:
+ num_rows 
+----------
+      714
+(1 row)
+
+Latest refresh date by event year:
+ event_year | latest_refresh_date 
+------------+---------------------
+       2023 | 2025-09-02
+       2024 | 2025-09-02
+       2025 | 2025-09-02
+(3 rows)
+
+Finished seeding tables.
