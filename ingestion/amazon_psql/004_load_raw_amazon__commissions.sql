@@ -1,19 +1,3 @@
--- Define a table in which our .csv data will land
-CREATE TABLE IF NOT EXISTS raw_amazon.commissions_landing (
-    category_name text,
-    product_name text,
-    product_asin text,
-    seller text,
-    associate_tracking_id text,
-    date_shipped text,
-    unit_price text,
-    qty_shipped text,
-    is_return text,
-    revenue text,
-    commission text,
-    device_type text
-);
-
 -- Copy raw .csv data into the landing table
 -- \copy doesn't allow variable substitution by default, so we build the command by constructing the string and storing as a variable, and then execute it
 \set copy_command '\\copy raw_amazon.commissions_landing (category_name, product_name, product_asin, seller, associate_tracking_id, date_shipped, unit_price, qty_shipped, is_return, revenue, commission, device_type) FROM ' :'source_path' ' WITH (FORMAT csv, HEADER, DELIMITER '','', QUOTE E''\\b'', ENCODING ''UTF8'');'

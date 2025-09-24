@@ -13,6 +13,7 @@ from dotenv import load_dotenv
 import psycopg
 from psycopg import sql
 import csv
+import uuid
 
 # Read contents of raw_data/amazon directory and return per-csv metadata for ingestion step.
 # Skip files which do not conform to the expected format and naming convention with descriptive error messages, rather than halting execution.
@@ -91,8 +92,8 @@ def ingest_amazon_csv_files(csv_metadata):
                 loaded_files[table_name] = [val[0] for val in cur.fetchall()]
             print(loaded_files)
 
-            batch_id = 1
-            etl_loaded_at = dt.date.today()
+            batch_uuid = uuid.uuid4()
+            etl_loaded_at = dt.datetime.now()
         
         # For each file, load into the database if it hasn't yet been loaded.
         for curr_csv in csv_metadata:
@@ -121,7 +122,7 @@ def ingest_amazon_csv_files(csv_metadata):
                                         continue
 
                                     # Add batch-level metadata columns, then copy into our target table
-                                    row.append(batch_id)
+                                    row.append(batch_uuid)
                                     row.append(etl_loaded_at)
                                     row.append(curr_csv['file_path'].name)
                                     row.append(curr_csv['refresh_date'])

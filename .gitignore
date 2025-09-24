@@ -1,7 +1,9 @@
 
-# "Warehouse layer" details: raw .csv data and SSL cert
+# "Warehouse layer" details: raw .csv data
 /raw_data/
-*.crt
+
+# Authentication files (SSL cert, GCP Credentials)
+/auth/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
