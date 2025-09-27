@@ -1,5 +1,5 @@
 """
-This script resets the database and re-initializes:
+Resets the database and re-initializes:
 - All schemas (raw schema per source, development, and production)
 - Ingestion-related tables (others are materialized with dbt later in the pipeline)
 
