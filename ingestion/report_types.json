@@ -1,0 +1,141 @@
+{
+  "reportTypes": [
+    {
+      "id": "channel_annotations_a1",
+      "name": "Annotations"
+    },
+    {
+      "id": "channel_basic_a2",
+      "name": "Deprecated User activity",
+      "deprecateTime": "2025-10-31T00:00:00Z"
+    },
+    {
+      "id": "channel_basic_a3",
+      "name": "User activity"
+    },
+    {
+      "id": "channel_cards_a1",
+      "name": "Cards"
+    },
+    {
+      "id": "channel_combined_a2",
+      "name": "Deprecated Combined",
+      "deprecateTime": "2025-10-31T00:00:00Z"
+    },
+    {
+      "id": "channel_combined_a3",
+      "name": "Combined"
+    },
+    {
+      "id": "channel_demographics_a1",
+      "name": "Demographics"
+    },
+    {
+      "id": "channel_device_os_a2",
+      "name": "Deprecated Device and OS",
+      "deprecateTime": "2025-10-31T00:00:00Z"
+    },
+    {
+      "id": "channel_device_os_a3",
+      "name": "Device and OS"
+    },
+    {
+      "id": "channel_end_screens_a1",
+      "name": "End screens"
+    },
+    {
+      "id": "channel_playback_location_a2",
+      "name": "Deprecated Playback locations",
+      "deprecateTime": "2025-10-31T00:00:00Z"
+    },
+    {
+      "id": "channel_playback_location_a3",
+      "name": "Playback locations"
+    },
+    {
+      "id": "channel_province_a2",
+      "name": "Deprecated Province",
+      "deprecateTime": "2025-10-31T00:00:00Z"
+    },
+    {
+      "id": "channel_province_a3",
+      "name": "Province"
+    },
+    {
+      "id": "channel_sharing_service_a1",
+      "name": "Sharing service"
+    },
+    {
+      "id": "channel_subtitles_a2",
+      "name": "Deprecated Subtitles",
+      "deprecateTime": "2025-10-31T00:00:00Z"
+    },
+    {
+      "id": "channel_subtitles_a3",
+      "name": "Subtitles"
+    },
+    {
+      "id": "channel_traffic_source_a2",
+      "name": "Deprecated Traffic sources",
+      "deprecateTime": "2025-10-31T00:00:00Z"
+    },
+    {
+      "id": "channel_traffic_source_a3",
+      "name": "Traffic sources"
+    },
+    {
+      "id": "playlist_basic_a1",
+      "name": "Deprecated Playlist user activity",
+      "deprecateTime": "2025-10-31T00:00:00Z"
+    },
+    {
+      "id": "playlist_basic_a2",
+      "name": "Playlist user activity"
+    },
+    {
+      "id": "playlist_combined_a1",
+      "name": "Deprecated Playlist combined",
+      "deprecateTime": "2025-10-31T00:00:00Z"
+    },
+    {
+      "id": "playlist_combined_a2",
+      "name": "Playlist combined"
+    },
+    {
+      "id": "playlist_device_os_a1",
+      "name": "Deprecated Playlist device and OS",
+      "deprecateTime": "2025-10-31T00:00:00Z"
+    },
+    {
+      "id": "playlist_device_os_a2",
+      "name": "Playlist device and OS"
+    },
+    {
+      "id": "playlist_playback_location_a1",
+      "name": "Deprecated Playlist playback locations",
+      "deprecateTime": "2025-10-31T00:00:00Z"
+    },
+    {
+      "id": "playlist_playback_location_a2",
+      "name": "Playlist playback locations"
+    },
+    {
+      "id": "playlist_province_a1",
+      "name": "Deprecated Playlist province",
+      "deprecateTime": "2025-10-31T00:00:00Z"
+    },
+    {
+      "id": "playlist_province_a2",
+      "name": "Playlist province"
+    },
+    {
+      "id": "playlist_traffic_source_a1",
+      "name": "Deprecated Playlist traffic sources",
+      "deprecateTime": "2025-10-31T00:00:00Z"
+    },
+    {
+      "id": "playlist_traffic_source_a2",
+      "name": "Playlist traffic sources"
+    }
+  ]
+}

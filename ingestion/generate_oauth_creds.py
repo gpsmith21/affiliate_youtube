@@ -6,7 +6,6 @@ Retrieve a Google OAuth refresh token for YouTube API access to my channel data.
 - Persist credentials so other scripts can reuse them
 """
 
-import google.oauth2.credentials
 import google_auth_oauthlib.flow
 from dotenv import load_dotenv
 from pathlib import Path
@@ -27,6 +26,7 @@ flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(os.environ.get('O
 authorization_url, state = flow.authorization_url(
     # Enable offline access so that you can refresh an access token without re-prompting the user for permission.
     access_type='offline',
+    prompt='consent',
     # Optional, enable incremental authorization. Recommended as a best practice.
     include_granted_scopes='true',
     )
