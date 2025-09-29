@@ -2,7 +2,6 @@
 Resets the database and re-initializes:
 - All schemas (raw schema per source, development, and production)
 - Ingestion-related tables (others are materialized with dbt later in the pipeline)
-
 """
 import os
 from pathlib import Path
@@ -30,11 +29,15 @@ def main():
     with open(os.path.join(sql_dir, 'init_src_amazon.sql'), 'r') as f:
         query_init_src_amazon = f.read()
 
+    with open(os.path.join(sql_dir, 'init_src_youtube.sql'), 'r') as f:
+        query_init_src_youtube = f.read()
+
     # Open Postgres connection and perform DDL.
     with psycopg.connect(conninfo=conn_str) as conn:
         conn.execute(query_reset_db)
         conn.execute(query_init_schemas)
         conn.execute(query_init_src_amazon)
+        conn.execute(query_init_src_youtube)
 
         # Fetch schemas and tables that were added
         with conn.cursor() as cur:

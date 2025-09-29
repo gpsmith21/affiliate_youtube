@@ -5,15 +5,14 @@
             "api_name": "youtubeanalytics",
             "api_version": "v2",
             "source_name": "youtubeanalytics_v2",
+            "target_wh_schema": "raw_youtube",
             "reports": [
                 {
                     "report_name": "report-timebased",
-                    "target_wh_schema": "raw_youtube",
                     "target_wh_table": "daily_video"
                 },
                 {
                     "report_name": "report-devicetype",
-                    "target_wh_schema": "raw_youtube",
                     "target_wh_table": "daily_video_devicetype"
                 }
             ]
@@ -22,20 +21,18 @@
             "api_name": null,
             "api_version": null,
             "source_name": "amazon-associates",
+            "target_wh_schema": "raw_amazon",
             "reports": [
                 {
                     "report_name": "Fee-DailyTrends",
-                    "target_wh_schema": "raw_amazon",
                     "target_wh_table": "daily_clicks"
                 },
                 {
                     "report_name": "Fee-Orders",
-                    "target_wh_schema": "raw_amazon",
                     "target_wh_table": "orders"
                 },
                                 {
                     "report_name": "Fee-Earnings",
-                    "target_wh_schema": "raw_amazon",
                     "target_wh_table": "commissions"
                 }
             ]

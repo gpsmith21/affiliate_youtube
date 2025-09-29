@@ -3,7 +3,6 @@ Moves all .csv files from root/raw_data/amazon to the raw_amazon schema in appen
 - Discover all files and parse csv names to feed metadata ingestion columns
 - Clean .csv files received from data producer for COPY
 - Copy each .csv file into the appropriate raw_amazon table with a buffered approach
-
 """
 
 from pathlib import Path
