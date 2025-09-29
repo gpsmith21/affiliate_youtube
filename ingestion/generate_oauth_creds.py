@@ -15,13 +15,14 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 
 # Load environment variables
 ROOT = Path(__file__).parent.parent
+REDIRECT_URI = 'http://localhost:8080'
 load_dotenv(ROOT / '.env')
 
 # Set the level of access that my application will have to my Google account (YT Reporting details only)
 flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(os.environ.get('OAUTH_CLIENT_SECRET_PATH'),
     scopes=['https://www.googleapis.com/auth/yt-analytics.readonly',
             'https://www.googleapis.com/auth/yt-analytics-monetary.readonly'],
-            redirect_uri = 'http://localhost:8080')
+            redirect_uri = REDIRECT_URI)
 
 authorization_url, state = flow.authorization_url(
     # Enable offline access so that you can refresh an access token without re-prompting the user for permission.
@@ -46,7 +47,7 @@ class OAuthHandler(BaseHTTPRequestHandler):
 server_address = ('', 8080)
 with HTTPServer(server_address, OAuthHandler) as httpd:
    httpd.handle_request()
-   oauth_response = f'https://localhost:8080{httpd.oauth_response}'
+   oauth_response = f'{REDIRECT_URI}{httpd.oauth_response}'
    
 
 # Fetch and store credentials in authorized_user.json file

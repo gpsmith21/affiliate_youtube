@@ -1,0 +1,36 @@
+{
+  "ResponseMetadata": {
+    "RequestId": "DKBWX7MQMCGVY5XH",
+    "HostId": "PF5sduT1hRiGGq43cwy3tTJdrNLHRbRNnKRBj6uxjghDssDrpqGmmdHf7vgBfLK7bs705Irq/o5H6OmJi/VaA6PX9xPzRZo7VYp/WxTlbXY=",
+    "HTTPStatusCode": 200,
+    "HTTPHeaders": {
+      "x-amz-id-2": "PF5sduT1hRiGGq43cwy3tTJdrNLHRbRNnKRBj6uxjghDssDrpqGmmdHf7vgBfLK7bs705Irq/o5H6OmJi/VaA6PX9xPzRZo7VYp/WxTlbXY=",
+      "x-amz-request-id": "DKBWX7MQMCGVY5XH",
+      "date": "Mon, 29 Sep 2025 17:20:38 GMT",
+      "x-amz-bucket-region": "us-east-2",
+      "content-type": "application/xml",
+      "transfer-encoding": "chunked",
+      "server": "AmazonS3"
+    },
+    "RetryAttempts": 1
+  },
+  "IsTruncated": false,
+  "Contents": [
+    {
+      "Key": "raw/source=youtubeanalytics_v2/report_type=report-timebased/run_ts=20250929165559/data.parquet",
+      "LastModified": "2025-09-29 16:56:18+00:00",
+      "ETag": "\"82061c79fca3120cb8e14f2c17c6bd9f\"",
+      "ChecksumAlgorithm": [
+        "CRC32"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 57055,
+      "StorageClass": "STANDARD"
+    }
+  ],
+  "Name": "affiliate-youtube-project",
+  "Prefix": "raw/source=youtubeanalytics_v2/report_type=report-timebased",
+  "MaxKeys": 1000,
+  "EncodingType": "url",
+  "KeyCount": 1
+}
