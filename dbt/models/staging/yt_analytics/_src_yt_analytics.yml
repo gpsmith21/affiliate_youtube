@@ -1,0 +1,64 @@
+version: 2
+
+sources:
+  - name: yt_analytics
+    database: postgres
+    schema: raw_youtube
+    description: YouTube performance data for The Purchase Pros captured by the Youtube Analytics API.
+    tables:
+      - name: daily_video
+        description: "{{ doc('yt_analytics__daily_video') }}"
+        columns:
+          - name: day
+            description: Day on which performance metrics were measured.
+            data_tests:
+              - not_null
+          - name: video_id
+            description: 'YouTube-generated ID for this video.'
+            data_tests:
+              - not_null
+          - name: s3_run_ts
+            description: Timestamp (UTC) representing when this data was delivered via the YouTube Analytics API and stored into s3.
+          - name: wh_loaded_at
+            description: Timestamp (UTC) representing when this row was copied from s3 into the warehouse.
+        config:
+          freshness:
+            warn_after:
+              count: 3
+              period: day
+            error_after:
+              count: 7
+              period: day
+          loaded_at_field: s3_run_ts
+
+      - name: daily_video_devicetype
+        description: "{{ doc('yt_analytics__daily_video_devicetype') }}"
+        columns:
+          - name: day
+            description: Day on which performance metrics were measured.
+            data_tests:
+              - not_null
+          - name: video_id
+            description: 'YouTube-generated ID for this video.'
+            data_tests:
+              - not_null
+          - name: deviceType
+            description: 'Device which was used to play the video.'
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: ['DESKTOP', 'GAME_CONSOLE', 'MOBILE', 'TABLET', 'TV', 'UNKNOWN_PLATFORM']
+              - not_null
+          - name: s3_run_ts
+            description: Timestamp (UTC) representing when this data was delivered via the YouTube Analytics API and stored into s3.
+          - name: wh_loaded_at
+            description: Timestamp (UTC) representing when this row was copied from s3 into the warehouse.
+        config:
+          freshness:
+            warn_after:
+              count: 3
+              period: day
+            error_after:
+              count: 7
+              period: day
+          loaded_at_field: s3_run_ts
