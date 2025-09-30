@@ -13,16 +13,16 @@ $PSQL -f "$(dirname "$0")/../amazon_psql/003_init_land_amazon.sql"
 
 
 # Before loading, print summary stats about each table
-echo "State of raw_amazon.commissions prior to seeding: "
-$PSQL -v schema="raw_amazon" -v table="commissions" -v date_col="date_shipped" \
+echo "State of raw_amazon_psql.commissions prior to seeding: "
+$PSQL -v schema="raw_amazon_psql" -v table="commissions" -v date_col="date_shipped" \
         -f "$(dirname "$0")/../amazon_psql/100_summary_stats_amazon.sql"
 
-echo "State of raw_amazon.orders prior to seeding: "
-$PSQL -v schema="raw_amazon" -v table="orders" -v date_col="order_date" \
+echo "State of raw_amazon_psql.orders prior to seeding: "
+$PSQL -v schema="raw_amazon_psql" -v table="orders" -v date_col="order_date" \
         -f "$(dirname "$0")/../amazon_psql/100_summary_stats_amazon.sql"
 
-echo "State of raw_amazon.daily_clicks prior to seeding: "
-$PSQL -v schema="raw_amazon" -v table="daily_clicks" -v date_col="snapshot_date" \
+echo "State of raw_amazon_psql.daily_clicks prior to seeding: "
+$PSQL -v schema="raw_amazon_psql" -v table="daily_clicks" -v date_col="snapshot_date" \
         -f "$(dirname "$0")/../amazon_psql/100_summary_stats_amazon.sql"
 
 
@@ -51,16 +51,16 @@ for year in 2023 2024 2025; do
 done
 
 # After loading, print summary stats about each table
-echo "State of raw_amazon.commissions after seeding: "
-$PSQL -v schema="raw_amazon" -v table="commissions" -v date_col="date_shipped" \
+echo "State of raw_amazon_psql.commissions after seeding: "
+$PSQL -v schema="raw_amazon_psql" -v table="commissions" -v date_col="date_shipped" \
         -f "$(dirname "$0")/../amazon_psql/100_summary_stats_amazon.sql"
 
-echo "State of raw_amazon.orders after seeding: "
-$PSQL -v schema="raw_amazon" -v table="orders" -v date_col="order_date" \
+echo "State of raw_amazon_psql.orders after seeding: "
+$PSQL -v schema="raw_amazon_psql" -v table="orders" -v date_col="order_date" \
         -f "$(dirname "$0")/../amazon_psql/100_summary_stats_amazon.sql"
 
-echo "State of raw_amazon.daily_clicks after seeding: "
-$PSQL -v schema="raw_amazon" -v table="daily_clicks" -v date_col="snapshot_date" \
+echo "State of raw_amazon_psql.daily_clicks after seeding: "
+$PSQL -v schema="raw_amazon_psql" -v table="daily_clicks" -v date_col="snapshot_date" \
         -f "$(dirname "$0")/../amazon_psql/100_summary_stats_amazon.sql"
 
 echo "Finished seeding tables."

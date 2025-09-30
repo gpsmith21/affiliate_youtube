@@ -1,5 +1,5 @@
 -- Amazon commissions at an order-item level grain. Commissions are credited when shipped. Includes negative-valued commissions for returns
-CREATE TABLE IF NOT EXISTS raw_amazon.commissions (
+CREATE TABLE IF NOT EXISTS raw_amazon_psql.commissions (
     category_name text,
     product_name text,
     product_asin text,
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS raw_amazon.commissions (
 );
 
 -- Amazon orders originating from the associate's affiliate links with order details
-CREATE TABLE IF NOT EXISTS raw_amazon.orders (
+CREATE TABLE IF NOT EXISTS raw_amazon_psql.orders (
     category_name text,
     product_name text,
     product_asin text,
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS raw_amazon.orders (
 );
 
 -- Daily snapshot capturing metrics: total affiliate link clicks and items ordered by seller (Amazon vs. third-party)
-CREATE TABLE IF NOT EXISTS raw_amazon.daily_clicks (
+CREATE TABLE IF NOT EXISTS raw_amazon_psql.daily_clicks (
     snapshot_date text,
     daily_clicks text,
     qty_ordered_amz text,

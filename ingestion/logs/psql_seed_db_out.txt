@@ -1,4 +1,4 @@
-State of raw_amazon.commissions prior to seeding: 
+State of raw_amazon_psql.commissions prior to seeding: 
 Number of rows:
  num_rows 
 ----------
@@ -10,7 +10,7 @@ Latest refresh date by event year:
 ------------+---------------------
 (0 rows)
 
-State of raw_amazon.orders prior to seeding: 
+State of raw_amazon_psql.orders prior to seeding: 
 Number of rows:
  num_rows 
 ----------
@@ -22,7 +22,7 @@ Latest refresh date by event year:
 ------------+---------------------
 (0 rows)
 
-State of raw_amazon.daily_clicks prior to seeding: 
+State of raw_amazon_psql.daily_clicks prior to seeding: 
 Number of rows:
  num_rows 
 ----------
@@ -37,7 +37,7 @@ Latest refresh date by event year:
 Seeding Amazon commissions table: 
 Seeding Amazon orders table: 
 Seeding Amazon daily_clicks table: 
-State of raw_amazon.commissions after seeding: 
+State of raw_amazon_psql.commissions after seeding: 
 Number of rows:
  num_rows 
 ----------
@@ -52,7 +52,7 @@ Latest refresh date by event year:
        2025 | 2025-09-02
 (3 rows)
 
-State of raw_amazon.orders after seeding: 
+State of raw_amazon_psql.orders after seeding: 
 Number of rows:
  num_rows 
 ----------
@@ -67,7 +67,7 @@ Latest refresh date by event year:
        2025 | 2025-09-02
 (3 rows)
 
-State of raw_amazon.daily_clicks after seeding: 
+State of raw_amazon_psql.daily_clicks after seeding: 
 Number of rows:
  num_rows 
 ----------

@@ -1,7 +1,7 @@
 -- Define 3 tables in which our .csv data will land.
 -- Only difference vs. tables in step 002 is no metadata columns (etl_loaded_at, refresh_date, or source .csv path)
 
-CREATE TABLE IF NOT EXISTS raw_amazon.commissions_landing (
+CREATE TABLE IF NOT EXISTS raw_amazon_psql.commissions_landing (
     category_name text,
     product_name text,
     product_asin text,
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS raw_amazon.commissions_landing (
     device_type text
 );
 
-CREATE TABLE IF NOT EXISTS raw_amazon.orders_landing (
+CREATE TABLE IF NOT EXISTS raw_amazon_psql.orders_landing (
     category_name text,
     product_name text,
     product_asin text,
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS raw_amazon.orders_landing (
     device_type text
 );
 
-CREATE TABLE IF NOT EXISTS raw_amazon.daily_clicks_landing (
+CREATE TABLE IF NOT EXISTS raw_amazon_psql.daily_clicks_landing (
     snapshot_date text,
     daily_clicks text,
     qty_ordered_amz text,

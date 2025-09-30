@@ -1,19 +1,19 @@
 -- Copy raw .csv data into the landing table
 -- \copy doesn't allow variable substitution by default, so we build the command by constructing the string and storing as a variable, and then execute it
-\set copy_command '\\copy raw_amazon.commissions_landing (category_name, product_name, product_asin, seller, associate_tracking_id, date_shipped, unit_price, qty_shipped, is_return, revenue, commission, device_type) FROM ' :'source_path' ' WITH (FORMAT csv, HEADER, DELIMITER '','', QUOTE E''\\b'', ENCODING ''UTF8'');'
+\set copy_command '\\copy raw_amazon_psql.commissions_landing (category_name, product_name, product_asin, seller, associate_tracking_id, date_shipped, unit_price, qty_shipped, is_return, revenue, commission, device_type) FROM ' :'source_path' ' WITH (FORMAT csv, HEADER, DELIMITER '','', QUOTE E''\\b'', ENCODING ''UTF8'');'
 :copy_command
 
 BEGIN; -- All-at-once transaction
 
--- Delete stale rows in raw_amazon.commissions table covering the same year but with an older refresh date
-DELETE FROM raw_amazon.commissions
-    WHERE EXTRACT(YEAR FROM raw_amazon.commissions.date_shipped::date) = :year AND refresh_date < :'refresh_date';
+-- Delete stale rows in raw_amazon_psql.commissions table covering the same year but with an older refresh date
+DELETE FROM raw_amazon_psql.commissions
+    WHERE EXTRACT(YEAR FROM raw_amazon_psql.commissions.date_shipped::date) = :year AND refresh_date < :'refresh_date';
 
 
 -- What is the most recent refresh_date in our raw table for data covering the same year as our input .csv?
 SELECT MAX(refresh_date) AS latest_refresh_date
-FROM raw_amazon.commissions
-WHERE EXTRACT(YEAR FROM raw_amazon.commissions.date_shipped::date) = :year
+FROM raw_amazon_psql.commissions
+WHERE EXTRACT(YEAR FROM raw_amazon_psql.commissions.date_shipped::date) = :year
 \gset
 
 -- If no refresh date was found, set to a default value
@@ -24,16 +24,16 @@ WHERE EXTRACT(YEAR FROM raw_amazon.commissions.date_shipped::date) = :year
 \endif
 
 -- Insert our landing table contents into the raw commissions table along with metadata regarding this insertion, IF it is the most up-to-date refresh.
-INSERT INTO raw_amazon.commissions
+INSERT INTO raw_amazon_psql.commissions
     (category_name, product_name, product_asin, seller, associate_tracking_id, date_shipped, unit_price, qty_shipped, is_return, revenue, commission, device_type,
     etl_loaded_at, refresh_date, source_csv)
 SELECT *,
     current_timestamp,
     :'refresh_date'::date,
     :'source_path'::text
-FROM raw_amazon.commissions_landing
+FROM raw_amazon_psql.commissions_landing
 WHERE :'refresh_date' > :'latest_refresh_date';
 
-TRUNCATE raw_amazon.commissions_landing;
+TRUNCATE raw_amazon_psql.commissions_landing;
 
 COMMIT; -- End transaction
