@@ -12,19 +12,17 @@ from dotenv import load_dotenv
 import psycopg
 from psycopg import sql
 import csv
-import uuid
+import json
 
 # Read contents of raw_data/amazon directory and return per-csv metadata for ingestion step.
 # Skip files which do not conform to the expected format and naming convention with descriptive error messages, rather than halting execution.
-def parse_csv_landing_dir():
+def parse_csv_landing_dir(raw_csv_path, source_obj):
 
-    # Mapping of amazon report names to my database table names
-    amz_report_map = {'Fee-Orders': 'orders', 'Fee-Earnings': 'commissions', 'Fee-DailyTrends': 'daily_clicks'}
-
-    raw_data_path = Path(__file__).parent.parent / 'raw_data' / 'amazon'
+    # Mapping of amazon report names to warehouse table names
+    amz_report_map = {r['report_name']: r['target_wh_table'] for r in source_obj['reports']}
     csv_metadata = []
 
-    for path_obj in raw_data_path.iterdir():
+    for path_obj in raw_csv_path.iterdir():
 
         # Only process CSVs
         if path_obj.suffix != '.csv':
@@ -60,6 +58,7 @@ def parse_csv_landing_dir():
         
         # Create a dictionary capturing this dataset's parsed metadata
         d = {
+            'report_name': amazon_report_name,
             'file_path': path_obj,
             'data_year': data_year,
             'refresh_date': dt.date(refresh_y, refresh_m, refresh_d),
@@ -71,7 +70,9 @@ def parse_csv_landing_dir():
 
 
 # Read amazon csv files into memory and COPY
-def ingest_amazon_csv_files(csv_metadata):
+def ingest_amazon_csv_files(csv_metadata, source_obj):
+
+    target_table_list = [t['target_wh_table'] for t in source_obj['reports']]
 
     # Load environment variables and build connection string for DB connection
     env_dir = Path(__file__).parent.parent
@@ -86,16 +87,16 @@ def ingest_amazon_csv_files(csv_metadata):
         # Keep track of all previously loaded files to avoid double-loading
         with conn.cursor() as cur:
             loaded_files = {}
-            for table_name in ['commissions', 'orders', 'daily_clicks']:
+            for table_name in target_table_list:
                 cur.execute(sql.SQL("SELECT DISTINCT source_csv FROM {}").format(sql.Identifier('raw_amazon', table_name)))
                 loaded_files[table_name] = [val[0] for val in cur.fetchall()]
             print(loaded_files)
 
-            batch_uuid = uuid.uuid4()
-            etl_loaded_at = dt.datetime.now()
+            wh_loaded_at = dt.datetime.now()
         
         # For each file, load into the database if it hasn't yet been loaded.
         for curr_csv in csv_metadata:
+            report_cols = next(s for s in source_obj['reports'] if s['report_name'] == curr_csv['report_name'])['cols']
             target_table = curr_csv['target_table']
             curr_csv_name = curr_csv['file_path'].name 
             if curr_csv_name in loaded_files[target_table]:
@@ -112,17 +113,26 @@ def ingest_amazon_csv_files(csv_metadata):
                             # Align dialect to data producer's (Amazon's) source formatting
                             reader = csv.reader(f, delimiter=',', quotechar='\b')
 
-                            with cur.copy(sql.SQL("COPY {} FROM STDIN")
-                                          .format(sql.Identifier('raw_amazon', target_table))) as copy:
+                            # Validate columns match expected schema (defined in s3_schema.json)
+                            csv_headers = next(reader)
+                            metadata_cols = ['wh_loaded_at', 'source_csv', 'refresh_date']
+                            for col in csv_headers:
+                                if col not in report_cols:
+                                    if col not in metadata_cols:
+                                        raise ValueError(f'ERROR: Invalid column {col} found during csv upload: {curr_csv_name}')
+                            cols_ordered = csv_headers + metadata_cols
+
+                            with cur.copy(sql.SQL("COPY {} ({}) FROM STDIN")
+                                          .format(sql.Identifier('raw_amazon', target_table),
+                                                  sql.SQL(',').join(sql.Identifier(s) for s in cols_ordered))) as copy:
                                 
                                 for row in reader:
-                                    # First row is
+                                    # First row = headers
                                     if reader.line_num <= 1:
                                         continue
 
                                     # Add batch-level metadata columns, then copy into our target table
-                                    row.append(batch_uuid)
-                                    row.append(etl_loaded_at)
+                                    row.append(wh_loaded_at)
                                     row.append(curr_csv['file_path'].name)
                                     row.append(curr_csv['refresh_date'])
 
@@ -136,5 +146,17 @@ def ingest_amazon_csv_files(csv_metadata):
 
 
 if __name__ == '__main__':
-    csv_metadata = parse_csv_landing_dir()
-    ingest_amazon_csv_files(csv_metadata)
+    
+    # Constants
+    AMAZON_CSV_PATH = Path(__file__).parent.parent / 'raw_data' / 'amazon'
+    SOURCE = 'amazon'
+    ROOT = Path(__file__).parent.parent
+
+    # Load current s3 schema which defines mapping between s3 partitions and warehouse tables
+    s3_schema_path = ROOT / 'ingestion' / 's3_schema.json'
+    with open(s3_schema_path, 'r') as f:
+        schema = json.load(f)
+    source_obj = next(s for s in schema["sources"] if s["source_name"] == "amazon")
+
+    csv_metadata = parse_csv_landing_dir(raw_csv_path=AMAZON_CSV_PATH, source_obj=source_obj)
+    ingest_amazon_csv_files(csv_metadata, source_obj)

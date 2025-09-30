@@ -117,7 +117,7 @@ if __name__ == '__main__':
                                 # Perform server-side copy. Specify column ordering for safety      
                                 with cur.copy(sql.SQL('COPY {} ({}) FROM STDIN').format(
                                     sql.Identifier(source_obj['target_wh_schema'], report_obj['target_wh_table']),
-                                    sql.SQL(','.join(df.columns)))) as copy:
+                                    sql.SQL(',').join(sql.Identifier(c) for c in df.columns))) as copy:
                                     for record in df_fmt:
                                         copy.write_row(record)
 

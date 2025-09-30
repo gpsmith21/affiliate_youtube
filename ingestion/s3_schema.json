@@ -23,20 +23,23 @@
         {
             "api_name": null,
             "api_version": null,
-            "source_name": "amazon-associates",
+            "source_name": "amazon",
             "target_wh_schema": "raw_amazon",
             "reports": [
                 {
                     "report_name": "Fee-DailyTrends",
-                    "target_wh_table": "daily_clicks"
+                    "target_wh_table": "daily_clicks",
+                    "cols": ["Date","Clicks","Items Ordered (Amazon)","Items Ordered (3rd Party)","Total Items Ordered","Conversion"]
                 },
                 {
                     "report_name": "Fee-Orders",
-                    "target_wh_table": "orders"
+                    "target_wh_table": "orders",
+                    "cols": ["Category","Name","ASIN","Date","Qty","Price($)","Link Type","Tag","Indirect Sales","Device Type Group"]
                 },
-                                {
+                {
                     "report_name": "Fee-Earnings",
-                    "target_wh_table": "commissions"
+                    "target_wh_table": "commissions",
+                    "cols": ["Category","Name","ASIN","Seller","Tracking ID","Date Shipped","Price($)","Items Shipped","Returns","Revenue($)","Ad Fees($)","Device Type Group"]
                 }
             ]
         }
