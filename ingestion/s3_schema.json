@@ -9,11 +9,14 @@
             "reports": [
                 {
                     "report_name": "report-timebased",
-                    "target_wh_table": "daily_video"
+                    "target_wh_table": "daily_video",
+                    "cols": ["comments","day","dislikes","engagedViews","estimatedMinutesWatched","estimatedRevenue","likes","shares","subscribersGained","subscribersLost","video_id","views"]
+
                 },
                 {
                     "report_name": "report-devicetype",
-                    "target_wh_table": "daily_video_devicetype"
+                    "target_wh_table": "daily_video_devicetype",
+                    "cols": ["day","deviceType","engagedViews","estimatedMinutesWatched","video_id","views"]
                 }
             ]
         },

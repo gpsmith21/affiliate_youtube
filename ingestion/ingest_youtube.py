@@ -108,9 +108,16 @@ if __name__ == '__main__':
                                 df['wh_loaded_at'] = now
                                 df_fmt = list(df.itertuples(index=False, name=None))
 
-                                # Perform server-side copy
-                                with cur.copy(sql.SQL('COPY {} FROM STDIN').format(
-                                    sql.Identifier(source_obj['target_wh_schema'], report_obj['target_wh_table']))) as copy:
+                                # Enforce columns are as expected (s3_schema.json)
+                                for col in df.columns:
+                                    if col not in report_obj['cols']:
+                                        if col not in ['s3_run_ts', 'wh_loaded_at']:
+                                            raise ValueError(f'Read unexpected column {col} from file {run}. Aborting copy operation.')
+                                        
+                                # Perform server-side copy. Specify column ordering for safety      
+                                with cur.copy(sql.SQL('COPY {} ({}) FROM STDIN').format(
+                                    sql.Identifier(source_obj['target_wh_schema'], report_obj['target_wh_table']),
+                                    sql.SQL(','.join(df.columns)))) as copy:
                                     for record in df_fmt:
                                         copy.write_row(record)
 
