@@ -116,8 +116,8 @@ def ingest_amazon_csv_files(csv_metadata):
                                           .format(sql.Identifier('raw_amazon', target_table))) as copy:
                                 
                                 for row in reader:
-                                    # First 2 rows are metadata, then headers
-                                    if reader.line_num <= 2:
+                                    # First row is
+                                    if reader.line_num <= 1:
                                         continue
 
                                     # Add batch-level metadata columns, then copy into our target table
