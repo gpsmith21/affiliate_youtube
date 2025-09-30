@@ -19,22 +19,31 @@ from dotenv import load_dotenv
 # Given a source and report name, retrieve all load timestamps in our S3 bucket associated with this report
 def retrieve_report_timestamps(bucket_name, schema_name, source_name, report_name):
     s3 = boto3.client('s3')
-    response = s3.list_objects_v2(
-        Bucket=bucket_name,
-        Prefix=f'{schema_name}/source={source_name}/report={report_name}'
-        )
-    # For debugging
-    # with open('example_response.json', 'w') as f:
-    #     json.dump(response, f, indent=2, default=str)
-    
+    c_token = None
     obj_list = []
-    for entry in response['Contents']:
-        key_list = entry['Key'].split('/')
-        for key in key_list:
-            if key[:7] == 'run_ts=':
-                obj_list.append({'run_ts': key[7:],
-                                's3_key': entry['Key']
-                                })
+
+    # Implement API pagination
+    while True:
+        kwargs = {'Bucket': bucket_name,
+                  'Prefix': f'{schema_name}/source={source_name}/report={report_name}'}
+        if c_token:
+            kwargs['ContinuationToken'] = c_token
+
+        response = s3.list_objects_v2(**kwargs)
+        
+        # Record all valid object keys and their corresponding run timestamps
+        for entry in response['Contents']:
+            key_list = entry['Key'].split('/')
+            for key in key_list:
+                if key.startswith('run_ts='):
+                    obj_list.append({'run_ts': key.lstrip('run_ts='),
+                                    's3_key': entry['Key']
+                                    })
+                    
+        if not response.get('IsTruncated'):
+            break
+        c_token = response.get('NextContinuationToken')
+         
     return obj_list
 
 

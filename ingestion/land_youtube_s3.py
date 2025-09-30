@@ -1,6 +1,6 @@
 """
 Land youtube channel performance data received via the YouTube Analytics API in S3.
-- Make GET requests to YouTube's API (daily granularity filtered to each video on the channel)
+- Make GET requests to YouTube's API (day x video grain)
 - Append daily totals for each video into one dataset using pandas
 - Store as .parquet file in S3 so we can idempotently load into our warehouse
 """
@@ -33,7 +33,7 @@ def api_retry_decorator(func):
                     time.sleep(SLEEP_TIME * i)
                 else:
                     print(f'ERROR: All attempts to run {func.__name__} have failed.')
-                    raise
+                    raise e
         return result
     return wrapper
 
@@ -82,7 +82,7 @@ def request_and_aggregate_report(video_ids, get_report_func, start_date, end_dat
     results = []
     for video_id in video_ids:
         result = get_report_func(video_id, start_date, end_date)
-        time.sleep(random.random())
+        time.sleep(random.random())   # Small delay between requests
 
         col_names = []
         for entry in result['columnHeaders']:
@@ -142,13 +142,13 @@ if __name__ == '__main__':
     reports_dict = {'report-timebased': buf_timebased,
                     'report-devicetype': buf_devicetype}
 
-    for report_desc, fileobj in reports_dict.items():
-        key = ingestion_utils.generate_s3_key(run_timestamp=now,
+    for report_name, fileobj in reports_dict.items():
+        key = ingestion_utils.generate_s3_key(schema='raw',
+                                            run_timestamp=now,
                                             source=API_NAME,
                                             api_version=API_VERSION,
-                                            desc=report_desc,
+                                            report=report_name,
                                             format='.parquet')
-        
         s3.upload_fileobj(fileobj, 'affiliate-youtube-project', key)
 
     print('INFO: Successfully loaded files into S3.')

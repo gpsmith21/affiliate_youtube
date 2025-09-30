@@ -41,16 +41,17 @@ class OAuthHandler(BaseHTTPRequestHandler):
         self.server.oauth_response= self.path
         self.send_response(200)
         self.end_headers()
-        self.wfile.write(b"You can close this tab.")
+        self.wfile.write(b"Received OAuth code. You can close this tab.")
 
 # Spin up a simple HTTP server listening on port 8080 to accept callback
 server_address = ('', 8080)
 with HTTPServer(server_address, OAuthHandler) as httpd:
    httpd.handle_request()
-   oauth_response = f'{REDIRECT_URI}{httpd.oauth_response}'
+   oauth_response = f'https://{httpd.oauth_response}'
    
-
 # Fetch and store credentials in authorized_user.json file
+print(oauth_response)
+print(REDIRECT_URI)
 flow.fetch_token(authorization_response=oauth_response)
 creds_dest = ROOT / 'auth' / 'authorized_user.json'
 with open(creds_dest, 'w') as f:

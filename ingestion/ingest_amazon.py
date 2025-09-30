@@ -2,7 +2,7 @@
 Moves all .csv files from root/raw_data/amazon to the raw_amazon schema in append-only fashion.
 - Discover all files and parse csv names to feed metadata ingestion columns
 - Clean .csv files received from data producer for COPY
-- Copy each .csv file into the appropriate raw_amazon table with a buffered approach
+- Copy the contents of each .csv file into the appropriate raw_amazon table
 """
 
 from pathlib import Path
